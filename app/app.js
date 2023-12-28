@@ -41,7 +41,7 @@ const isAuthenticated = (req, res, next) => {
 };
 
 app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.send(`AUTHORIZED! Dashboard - User Name: ${req.session.name}`);
+    res.send(`AUTHORIZED! Dashboard - User ID: ${req.session.uid}`);
 });
 
 app.get('/', (req, res) => {
@@ -67,12 +67,12 @@ app.post('/login', async (req, res) => {
         const hashedLoginPass = await bcrypt.compare(password, user.password)
         if (hashedLoginPass) {
             req.session.isAuth = true;
-            req.session.name = user.name;
+            req.session.uid = user._id;
             return res
                 .status(200)
                 .json({ msg: 'You have logged in successfully' });
         } else {
-            return res.status(400).json({ msg: 'Invalid credential' })
+            return res.status(400).json({ msg: 'Invalid credentials' })
         }
 
     } else {
@@ -110,7 +110,8 @@ app.post('/register', async (req, res) => {
                     address: address,
                     city : city,
                     emergencyContact : emergencyNo,
-                    dob : dob
+                    dob : dob,
+                    role:'basic'
                 }
 
                 user = await User.create(newUser)
