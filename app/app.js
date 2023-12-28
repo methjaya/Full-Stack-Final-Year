@@ -68,6 +68,8 @@ app.post('/login', async (req, res) => {
         if (hashedLoginPass) {
             req.session.isAuth = true;
             req.session.name = user.name;
+            console.log(user);
+            console.log(user.name);
             return res
                 .status(200)
                 .json({ msg: 'You have logged in successfully' });
@@ -89,8 +91,10 @@ app.post('/register', async (req, res) => {
     try {
         if (req.body.email && req.body.password && req.body.name) {
 
-            const { email, password, name } = req.body;
+            const { email, password, name, gender, phoneNumber, city, address, emergencyNo, dob } = req.body;
+
             const hashedPass = await bcrypt.hash(password, 10);
+
             let user = await User.findOne({
                 email: email
             });
@@ -103,6 +107,12 @@ app.post('/register', async (req, res) => {
                     email: email,
                     password: hashedPass,
                     name: name,
+                    gender : gender,
+                    phoneNumber : phoneNumber,
+                    address: address,
+                    city : city,
+                    emergencyContact : emergencyNo,
+                    dob : dob
                 }
 
                 user = await User.create(newUser)
