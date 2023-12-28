@@ -68,8 +68,6 @@ app.post('/login', async (req, res) => {
         if (hashedLoginPass) {
             req.session.isAuth = true;
             req.session.name = user.name;
-            console.log(user);
-            console.log(user.name);
             return res
                 .status(200)
                 .json({ msg: 'You have logged in successfully' });
