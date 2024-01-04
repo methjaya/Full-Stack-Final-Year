@@ -34,7 +34,7 @@ app.listen(port, () => {
 
 app.use('/auth', require('./routes/auth.js'));
 
-
+app.use('/workout', require('./routes/workout_route.js'));
 
 
 app.get('/dashboard', isAuthenticated, (req, res) => {
