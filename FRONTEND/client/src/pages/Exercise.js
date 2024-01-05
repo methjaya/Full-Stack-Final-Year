@@ -7,7 +7,7 @@ import resistanceIcon from "../assets/images/resistance.png"
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 export default function Exercise() {
-  const loggedIn = Auth.loggedIn();
+  const loggedIn = Auth.isLoggedIn();
   const navigate = useNavigate();
 
   // If the user is not logged in, redirect to the login page

@@ -17,7 +17,7 @@ export default function Resistance() {
     })
     const [startDate, setStartDate] = useState(new Date());
     const [message, setMessage] = useState("");
-    const loggedIn = Auth.loggedIn();
+    const loggedIn = Auth.isLoggedIn();
 
     const handleDateChange = date => {
         setStartDate(date);

@@ -31,9 +31,9 @@ router.post('/update', isAuthenticated, checkAdminAuth, async (req, res) => {
 
 router.get('/details', isAuthenticated, async (req, res) => {
     try {
-        if (req.session.uid) {
+        if (req.user.uid) {
 
-            const uid = req.session.uid;
+            const uid = req.user.uid;
 
             userWorkout = await Workout.findOne({ _id: uid });
 
@@ -55,5 +55,54 @@ router.get('/details', isAuthenticated, async (req, res) => {
         res.status(500).send({ mesage: 'Failed to execute the operation' })
     }
 });
+
+
+
+
+
+
+
+router.post('/strength/set', isAuthenticated, checkAdminAuth, async (req, res) => {
+    try {
+        if (req.body.workouts && req.body.uid) {
+
+            const { workouts, uid } = req.body;
+
+            // userWorkout = await Workout.create(newWorkout);
+            userWorkout = await Workout.findOneAndUpdate({ _id: uid },
+                { $set: { strength: workouts} },
+                { new: true, upsert: true });
+
+            res.status(200).send(userWorkout);
+
+        } else {
+            res.send("empty credentials");
+        }
+
+    } catch (err) {
+        res.send({ mesage: 'Failed to execute the operation' })
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

@@ -21,13 +21,12 @@ router.get('/status', (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    console.log("hello");
     try {
         if (req.body.email && req.body.password) {
 
-            if (req.session.isAuth) {
-                res.send('Already logged in');
-            } else {
+            // if (req.session.isAuth) {
+            //     res.send('Already logged in');
+            // } else {
                 const { email, password } = req.body;
 
                 const user = await User.findOne({ email: email })
@@ -50,10 +49,11 @@ router.post('/login', async (req, res) => {
                 }
             }
 
-        } else {
-            res.status(401).send({ message: "empty credentials" });
-        }
+        // } else {
+        //     res.status(401).send({ message: "empty credentials" });
+        // }
     } catch (err) {
+        console.log(err)
         res.send({ mesage: 'Failed to execute the operation' });
     }
 

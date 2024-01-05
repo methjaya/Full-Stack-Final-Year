@@ -12,7 +12,7 @@ export default function History() {
   const [exerciseData, setExerciseData] = useState([])
   const [displayedItems, setDisplayedItems] = useState(6);
 
-  const loggedIn = Auth.loggedIn();
+  const loggedIn = Auth.isLoggedIn();
   let currentDate;
 
   // everytime loggedIn/userdata changes, the getuserdata runs

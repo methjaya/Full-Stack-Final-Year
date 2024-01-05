@@ -16,7 +16,7 @@ export default function Cardio() {
     })
     const [startDate, setStartDate] = useState(new Date());
     const [message, setMessage] = useState("")
-    const loggedIn = Auth.loggedIn();
+    const loggedIn = Auth.isLoggedIn();
 
     const handleCardioChange = (event) => {
         const { name, value } = event.target;

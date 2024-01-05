@@ -17,7 +17,7 @@ export default function SingleExercise() {
     const [resistanceData, setResistanceData] = useState({})
 
 
-    const loggedIn = Auth.loggedIn();
+    const loggedIn = Auth.isLoggedIn();
     const navigate = useNavigate()
 
     useEffect(() => {

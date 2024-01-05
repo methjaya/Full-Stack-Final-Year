@@ -1,73 +1,102 @@
 const mongoose = require('mongoose')
 
 
-const Exercises = new mongoose.Schema({
-     _id : false ,
+const Strength = new mongoose.Schema({
+    _id: false,
     name: {
         type: String,
         required: true,
     },
-    description: {
+    startingWeight: {
         type: String,
         required: true,
     },
-})
-
-const Schedule = new mongoose.Schema({
-    _id : false ,
-    mon: {
+    sets: {
         type: String,
         required: true,
     },
-    tue: {
-        type: String,
-        required: true,
-    },
-    wed: {
-        type: String,
-        required: true,
-    },
-    thu: {
-        type: String,
-        required: true,
-    },
-    fri: {
-        type: String,
-        required: true,
-    },
-    sat: {
-        type: String,
-        required: true,
-    },
-    sun: {
-        type: String,
-        required: true,
-    },
-})
-
-const WorkoutType = new mongoose.Schema({
-    _id : false ,
-    name: {
-        type: String,
-        required: true,
-    },
-    type: {
-        type: String,
-        required: true,
-    },
-    exercises: [Exercises],
-})
-
-const Workout = new mongoose.Schema({
-    _id:{
+    reps: {
         type: String,
         required: true,
     },
     schedule: {
-        type: Schedule,
+        type: String,
         required: true,
     },
-    workouts: [WorkoutType]
-})
+});
+
+const Cardio = new mongoose.Schema({
+    _id: false,
+    name: {
+        type: String,
+        required: true,
+    },
+    sets: {
+        type: String,
+        required: true,
+    },
+    setDuration: {
+        type: String,
+        required: true,
+    },
+    schedule: {
+        type: String,
+        required: true,
+    },
+});
+
+const Abs = new mongoose.Schema({
+    _id: false,
+    name: {
+        type: String,
+        required: true,
+    },
+    reps: {
+        type: String,
+        required: true,
+    },
+    sets: {
+        type: String,
+        required: true,
+    },
+    schedule: {
+        type: String,
+        required: true,
+    },
+});
+
+const Track = new mongoose.Schema({
+    _id: false,
+    name: {
+        type: String,
+        required: true,
+    },
+    distance: {
+        type: String,
+        required: true,
+    },
+    time: {
+        type: String,
+        required: true,
+    },
+    date: {
+        type: String,
+        required: true,
+    },
+});
+
+
+
+
+const Workout = new mongoose.Schema({
+    _id: {
+        type: String,
+        required: true,
+    },
+    strength: [Strength],
+    cardio: [Cardio],
+    abs: [Abs],
+    track: [Track]
+});
 
 module.exports = mongoose.model('Workout', Workout)

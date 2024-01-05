@@ -1,12 +1,10 @@
 require('dotenv').config()
 let port = 8080;
 let express = require('express');
-const session = require("express-session");
-const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
 const DBConnect = require('./config/database');
-const { isAuthenticated } = require('./middleware/user_auth.js');
+const { isAuthenticated, checkAdminAuth } = require('./middleware/user_auth.js');
 
 
 
@@ -25,15 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, './public')));
 
-app.use(
-    session({
-        secret: process.env.SECRET,
-        name: 'session',
-        resave: false,
-        saveUninitialized: false,
-    })
-);
-
 DBConnect();
 
 app.listen(port, () => {
@@ -45,8 +34,8 @@ app.use('/auth', require('./routes/auth.js'));
 app.use('/workout', require('./routes/workout_route.js'));
 
 
-app.get('/dashboard', isAuthenticated, (req, res) => {
-    res.send(`AUTHORIZED! Dashboard - User ID: ${req.session.uid}`);
+app.get('/dashboard', isAuthenticated, checkAdminAuth,  (req, res) => {
+    res.send(`AUTHORIZED! Dashboard - User ID: ${req.user.uid}`);
 });
 
 app.get('/', (req, res) => {
