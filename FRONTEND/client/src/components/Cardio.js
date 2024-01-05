@@ -82,7 +82,7 @@ export default function Cardio() {
         <div className='cardio'>
             <Header />
             <div className="d-flex flex-column align-items-center">
-                <h2 className='title text-center'>Add Exercise</h2>
+                <h2 className='title text-center'>Add Cardio Exercise</h2>
                 <form className='cardio-form d-flex flex-column' onSubmit={handleCardioSubmit}>
                     <div className='d-flex justify-content-center'><img alt="cardio" src={cardioIcon} className="exercise-form-icon" /></div>
                     <label >Name:</label>

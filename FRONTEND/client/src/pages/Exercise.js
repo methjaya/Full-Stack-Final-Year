@@ -45,7 +45,7 @@ export default function Exercise() {
             </button>
           </div>
           <div className="col-md-6">
-            <button className='track-btn d-flex flex-column align-items-center justify-content-center' onClick={() => navigate("/exercise/resistance")}>
+            <button className='track-btn d-flex flex-column align-items-center justify-content-center' onClick={() => navigate("/exercise/Track")}>
               <img alt="rtrack" src={resistanceIcon} className="exercise-icon" />
               Track
             </button>

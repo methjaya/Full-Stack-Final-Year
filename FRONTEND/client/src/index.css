@@ -293,7 +293,17 @@ code {
 
 .resistance,
 .single-resistance {
-  background-image: url("./assets/images/dumbell.jpeg");
+  background-image: url("./assets/images/resistance.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  color: white;
+}
+
+.track,
+.single-track {
+  background-image: url("./assets/images/track.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

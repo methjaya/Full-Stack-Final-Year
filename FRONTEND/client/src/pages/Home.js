@@ -12,7 +12,7 @@ export default function Home() {
     <div className="homepage">
       <Header />
       <Container className="home d-flex flex-column align-items-center justify-content-center flex-wrap text-center">
-        <h1 className="home-title">Your Daily Workout Partner</h1>
+        <h1 className="home-title">Customize Your Healthy Life with Us</h1>
         
         {/* <p className="home-text">
           Don't Hesitate
