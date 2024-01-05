@@ -22,7 +22,7 @@ export default function Home() {
          <h1 className="home-title"></h1>
     
         {loggedIn ?
-          (<button className="home-btn" onClick={() => navigate("/exercise")}>Add Exercise</button>) :
+          (<button className="home-btn" onClick={() => navigate("/exercise")}>Make a Workout</button>) :
           (<button className="home-btn" onClick={() => navigate("/signup")}>Join Now !</button>)}
       </Container>
     </div>
