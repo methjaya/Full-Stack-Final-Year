@@ -1,25 +1,29 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { createUser } from "../utils/API";
+import { register } from "../utils/API";
 import Auth from "../utils/auth";
 import Header from "../components/Header";
 
 
 export default function Signup() {
-  const loggedIn = Auth.loggedIn();
+  const isLoggedIn = Auth.isLoggedIn();
 
   // set up the orginal state of the form
   const [formState, setFormState] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
+    gender: "",
+    phoneNumber: "",
   });
+
+  const [errMessage, setErrMessage] = useState("Failed to register");
 
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
   // update state based on form input
-  const handleChange = (event) => {
+  const onChange = (event) => {
     const { name, value } = event.target;
 
     setFormState({
@@ -29,17 +33,22 @@ export default function Signup() {
   };
 
   // submit form
-  const handleFormSubmit = async (event) => {
+  const onFormSubmit = async (event) => {
     event.preventDefault();
 
     // use try/catch to handle errors
     try {
+
+      if (isNaN(formState.phoneNumber)) {
+        throw new Error("Phone number should be numeric");
+      }
+
       // create new users
-      const response = await createUser(formState);
+      const response = await register(formState);
 
       // check the response
       if (!response.ok) {
-        throw new Error("something went wrong!");
+        throw new Error("Failed to register");
       }
 
       // get token and user data from server
@@ -51,11 +60,12 @@ export default function Signup() {
     } catch (err) {
       console.error(err);
       setShowAlert(true);
+      setErrMessage(err.message);
     }
   };
 
   // If the user is logged in, redirect to the home page
-  if (loggedIn) {
+  if (isLoggedIn) {
     return <Navigate to="/" />;
   }
 
@@ -63,30 +73,29 @@ export default function Signup() {
 
     <div className="signup d-flex flex-column align-items-center justify-content-center text-center">
       <Header />
-      <form onSubmit={handleFormSubmit} className="signup-form d-flex flex-column">
-        {/* --------------------name-------------------- */}
-        <label htmlFor="username">Name</label>
+      <form onSubmit={onFormSubmit} className="signup-form d-flex flex-column">
+
+        <label htmlFor="name">Name</label>
         <input
           className="form-input"
-          value={formState.username}
+          value={formState.name}
           placeholder="Your Name"
-          name="username"
-          type="username"
-          onChange={handleChange}
+          name="name"
+          type="text"
+          minLength={3}
+          onChange={onChange}
         />
 
-        {/* --------------------email-------------------- */}
         <label htmlFor="email">Email</label>
         <input
           className="form-input"
           value={formState.email}
-          placeholder="email@gmail.com"
+          placeholder="email@email.com"
           name="email"
           type="email"
-          onChange={handleChange}
+          onChange={onChange}
         />
 
-        {/* -------------------- password-------------------- */}
         <label htmlFor="password">Password</label>
         <input
           className="form-input"
@@ -94,55 +103,44 @@ export default function Signup() {
           placeholder="***********"
           name="password"
           type="password"
-          onChange={handleChange}
+          minLength={5}
+          onChange={onChange}
         />
 
-         {/* --------------------gender-------------------- */}
-         <label htmlFor="username">Gender</label>
+        <label htmlFor="gender">Gender</label>
         <input
           className="form-input"
-          value={formState.username}
+          value={formState.gender}
           placeholder="Male/Female"
-          name="username"
-          type="username"
-          onChange={handleChange}
+          name="gender"
+          type="text"
+          minLength={4}
+          onChange={onChange}
         />
 
-        {/* --------------------phonenumber-------------------- */}
-        <label htmlFor="username">Phone Number</label>
+        <label htmlFor="phoneNumber">Phone Number</label>
         <input
           className="form-input"
-          value={formState.username}
+          value={formState.phoneNumber}
           placeholder="Enter Your Phone Number"
-          name="username"
-          type="username"
-          onChange={handleChange}
+          name="phoneNumber"
+          type="text"
+          minLength={10}
+          maxLength={10}
+          onChange={onChange}
         />
 
-        {/* --------------------DOB-------------------- 
-        <label htmlFor="username">DoB</label>
-        <input
-          className="form-input"
-          value={formState.username}
-          placeholder="Enter your date of Birth"
-          name="username"
-          type="username"
-          onChange={handleChange} 
-        />
-        */}
-        {/* --------------------sign up btn-------------------- */}
         <div className="btn-div">
-          <button disabled={!(formState.username && formState.email && formState.password)}
+          <button disabled={!(formState.name && formState.email && formState.password && formState.phoneNumber && formState.gender)}
             className="signup-btn mx-auto my-auto"
           >Sign Up</button>
         </div>
 
-        {/* --------------------login link-------------------- */}
         <p className="link-btn">
           Already have an account?{' '}
           <Link to="/login">Log in</Link>
         </p>
-        {showAlert && <div className="err-message">Signup failed</div>}
+        {showAlert && <div className="err-message">{errMessage}</div>}
       </form>
     </div>
   );

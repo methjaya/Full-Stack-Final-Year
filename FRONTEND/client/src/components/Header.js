@@ -7,7 +7,7 @@ import heart from "../assets/images/heart.png"
 
 export default function Header() {
 
-  const loggedIn = Auth.loggedIn();
+  const loggedIn = Auth.isLoggedIn();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const isLoginPage = location.pathname === '/login';

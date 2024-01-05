@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { loginUser } from "../utils/API";
+import { login } from "../utils/API";
 import Auth from "../utils/auth";
 import Header from "../components/Header";
 
@@ -8,7 +8,7 @@ export default function Login() {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [showAlert, setShowAlert] = useState(false);
 
-  const loggedIn = Auth.loggedIn();
+  const isLoggedIn = Auth.isLoggedIn();
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -26,16 +26,18 @@ export default function Login() {
 
     // check the response
     try {
-      const response = await loginUser(formState);
+      const response = await login(formState);
 
       if (!response.ok) {
         throw new Error("something went wrong");
       }
 
-      // use authentication function
       const { token, user } = await response.json();
+
       Auth.login(token);
+
       console.log(user);
+
     } catch (err) {
       console.error(err);
       setShowAlert(true);
@@ -48,8 +50,9 @@ export default function Login() {
     });
   };
 
+
   // If the user is logged in, redirect to the home page
-  if (loggedIn) {
+  if (isLoggedIn) {
     return <Navigate to="/" />;
   }
 
@@ -78,6 +81,7 @@ export default function Login() {
           type="password"
           onChange={handleChange}
         />
+        
 
         {/* --------------------login btn-------------------- */}
         <div className="btn-div">

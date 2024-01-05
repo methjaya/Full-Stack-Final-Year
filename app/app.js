@@ -2,6 +2,8 @@ require('dotenv').config()
 let port = 8080;
 let express = require('express');
 const session = require("express-session");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const DBConnect = require('./config/database');
 const { isAuthenticated } = require('./middleware/user_auth.js');
@@ -10,9 +12,15 @@ const { isAuthenticated } = require('./middleware/user_auth.js');
 
 let app = express();
 
+
 const path = require("path");
 const bodyParser = require('body-parser');
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+};
 
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, './public')));

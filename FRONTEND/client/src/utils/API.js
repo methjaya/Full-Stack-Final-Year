@@ -9,17 +9,26 @@ export const getMe = (token) => {
   });
 };
 
-export const createUser = (userData) => {
-  return fetch("/api/user", {
+export const register = (userData) => {
+  return fetch("http://localhost:8080/autha/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
   });
 };
 
-export const loginUser = (userData) => {
-  return fetch("/api/user/login", {
+// export const loginUser = (userData) => {
+//   return fetch("/api/user/login", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(userData),
+//   });
+// };
+
+export const login = (userData) => {
+  return fetch("http://localhost:8080/auth/login", {
     method: "POST",
+    credentials: 'include',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
   });

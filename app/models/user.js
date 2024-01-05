@@ -21,22 +21,6 @@ const User = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    address: {
-        type: String,
-        required: true,
-    },
-    city: {
-        type: String,
-        required: true,
-    },
-    emergencyContact: {
-        type: Number,
-        required: true,
-    },
-    dob: {
-        type: Date,
-        required: true,
-    },
     role: {
         type: String,
         default: 'basic'
