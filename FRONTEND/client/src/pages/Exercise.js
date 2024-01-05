@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Auth from "../utils/auth";
 import Header from "../components/Header";
@@ -10,6 +10,12 @@ export default function Exercise() {
   const loggedIn = Auth.isLoggedIn();
   const navigate = useNavigate();
 
+  // Sample user names
+  const users = ['Sahansa', 'Sajeewa', 'Shehan'];
+  
+
+  const [selectedUser, setSelectedUser] = useState(users[0]); // Default to the first user
+
   // If the user is not logged in, redirect to the login page
   if (!loggedIn) {
     return <Navigate to="/login" />;
@@ -20,9 +26,24 @@ export default function Exercise() {
       <Header />
       <div className="exercise d-flex flex-column align-items-center">
         <h2 className='title'>Make Your Workout with Us!</h2>
-        <div className="row">
 
-        
+        {/* Dropdown menu for selecting user */}
+        <div>
+          <label htmlFor="userSelect">Select User:</label>
+          <select
+            id="userSelect"
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+          >
+            {users.map((user, index) => (
+              <option key={index} value={user}>
+                {user}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="row">
           <div className="col-md-6">
             <button className='cardio-btn d-flex flex-column align-items-center justify-content-center' onClick={() => navigate("/exercise/cardio")}>
               <img alt="cardio" src={cardioIcon} className="exercise-icon" />

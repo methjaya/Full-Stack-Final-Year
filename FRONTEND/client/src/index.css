@@ -407,3 +407,51 @@ code {
 .react-confirm-alert-button-group button:last-child {
   background-color: red;
 }
+
+/* Add this CSS to your existing stylesheet or create a new one */
+
+/* Style for the dropdown container */
+.select-container {
+  margin-top: 10px;
+  text-align: center; /* Center-align the label */
+}
+
+/* Style for the label */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight:bolder;
+  text-align: center; /* Center-align the label */
+}
+
+/* Style for the select element */
+select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  appearance: none; /* Remove default arrow in some browsers */
+  text-align-last: center;
+  background-color: #e0a9db; /* Change the background color */
+  color: #fff; /* Set the font color to white */
+  box-shadow: 0 2px 5px rgba(0, 0, 9, 0.1); /* Add a drop shadow */
+  
+}
+
+/* Style for the options within the select element */
+option {
+  background-color: #fff;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Style for the hover effect on options */
+option:hover {
+  background-color: #f0f0f0;
+}
+
+.bold-user {
+  font-weight: bold;
+}
+
