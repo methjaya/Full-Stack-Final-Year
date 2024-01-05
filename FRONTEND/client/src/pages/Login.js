@@ -90,7 +90,7 @@ export default function Login() {
         </div>
         {/* --------------------signup link-------------------- */}
         <p className="link-btn">
-          New to FitTrack?{' '}
+          New to GymPro?{' '}
           <Link to="/signup" >Create one</Link>
         </p>
         {showAlert && <div className="err-message">Login failed</div>}

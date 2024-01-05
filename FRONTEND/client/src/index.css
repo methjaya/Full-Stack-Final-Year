@@ -1,5 +1,5 @@
 :root {
-  --main-color: #b3f12c;
+  --main-color: #ff8133;
 }
 
 body {
@@ -18,14 +18,14 @@ code {
 
 /* ---------------------------1. header--------------------------------- */
 .heart-icon {
-  height: 24px;
+  height: 50px;
   margin-right: 3px;
 }
 
 .brand {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 34px;
+  font-weight: 900;
 }
 
 .brand-logged {
@@ -38,7 +38,7 @@ code {
 }
 
 .brand-text {
-  color: black;
+  color: #3348FF;
 }
 
 .brand-text:hover {
@@ -62,7 +62,7 @@ code {
 
 /* --------------------------------- 2. home page---------------------------------  */
 .homepage {
-  background-image: url("./assets/images/run.jpg");
+  background-image: url("./assets/images/gym.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -96,12 +96,14 @@ code {
   border-radius: 20px;
   background-color: var(--main-color);
   font-weight: 800;
+  color: white; /* Set text color to white */
 }
+
 
 .home-btn:hover,
 .signup-btn:hover,
 .submit-btn:hover {
-  background-color: #9cd326;
+  background-color: #ff5100;
 }
 
 /* 3. --------------------------------- sign up and login page-------------------------------- */
@@ -198,8 +200,22 @@ code {
 }
 
 .cardio-title,
-.cardio-btn {
-  background-color: var(--main-color);
+.cardio-btn,
+.abs-btn,
+.track-btn {
+  background-color: #ded3ff;
+  color: black;
+}
+
+
+.track-btn {
+  background-color: #d3ffed;
+  color: black;
+}
+
+.abs-title,
+.abs-btn {
+  background-color: #ffe4d3;
   color: black;
 }
 
@@ -236,7 +252,9 @@ code {
 }
 
 .cardio-btn,
-.resistance-btn {
+.resistance-btn,
+.abs-btn,
+.track-btn {
   width: 160px;
   height: 160px;
   margin: 20px auto;
@@ -250,7 +268,9 @@ code {
 }
 
 .cardio-btn:hover,
-.resistance-btn:hover {
+.resistance-btn:hover,
+.abs-btn:hover,
+.track-btn:hover {
   box-shadow: 0 0 10px 0 whitesmoke inset, 0 0 10px 4px whitesmoke;
 }
 
@@ -263,7 +283,7 @@ code {
 
 .cardio,
 .single-cardio {
-  background-image: url("./assets/images/running.jpg");
+  background-image: url("./assets/images/gym2.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -273,7 +293,17 @@ code {
 
 .resistance,
 .single-resistance {
-  background-image: url("./assets/images/dumbell.jpeg");
+  background-image: url("./assets/images/resistance.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  color: white;
+}
+
+.track,
+.single-track {
+  background-image: url("./assets/images/track.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
