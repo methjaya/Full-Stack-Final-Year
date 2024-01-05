@@ -200,8 +200,22 @@ code {
 }
 
 .cardio-title,
-.cardio-btn {
-  background-color: var(--main-color);
+.cardio-btn,
+.abs-btn,
+.track-btn {
+  background-color: #ded3ff;
+  color: black;
+}
+
+
+.track-btn {
+  background-color: #d3ffed;
+  color: black;
+}
+
+.abs-title,
+.abs-btn {
+  background-color: #ffe4d3;
   color: black;
 }
 
@@ -238,7 +252,9 @@ code {
 }
 
 .cardio-btn,
-.resistance-btn {
+.resistance-btn,
+.abs-btn,
+.track-btn {
   width: 160px;
   height: 160px;
   margin: 20px auto;
@@ -252,7 +268,9 @@ code {
 }
 
 .cardio-btn:hover,
-.resistance-btn:hover {
+.resistance-btn:hover,
+.abs-btn:hover,
+.track-btn:hover {
   box-shadow: 0 0 10px 0 whitesmoke inset, 0 0 10px 4px whitesmoke;
 }
 
