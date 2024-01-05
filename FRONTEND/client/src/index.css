@@ -1,5 +1,5 @@
 :root {
-  --main-color: #b3f12c;
+  --main-color: #ff8133;
 }
 
 body {
@@ -18,14 +18,14 @@ code {
 
 /* ---------------------------1. header--------------------------------- */
 .heart-icon {
-  height: 24px;
+  height: 50px;
   margin-right: 3px;
 }
 
 .brand {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 34px;
+  font-weight: 900;
 }
 
 .brand-logged {
@@ -38,7 +38,7 @@ code {
 }
 
 .brand-text {
-  color: black;
+  color: #3348FF;
 }
 
 .brand-text:hover {
@@ -62,7 +62,7 @@ code {
 
 /* --------------------------------- 2. home page---------------------------------  */
 .homepage {
-  background-image: url("./assets/images/run.jpg");
+  background-image: url("./assets/images/gym.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -96,12 +96,14 @@ code {
   border-radius: 20px;
   background-color: var(--main-color);
   font-weight: 800;
+  color: white; /* Set text color to white */
 }
+
 
 .home-btn:hover,
 .signup-btn:hover,
 .submit-btn:hover {
-  background-color: #9cd326;
+  background-color: #ff5100;
 }
 
 /* 3. --------------------------------- sign up and login page-------------------------------- */
@@ -263,7 +265,7 @@ code {
 
 .cardio,
 .single-cardio {
-  background-image: url("./assets/images/running.jpg");
+  background-image: url("./assets/images/gym2.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
