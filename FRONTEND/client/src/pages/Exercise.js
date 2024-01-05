@@ -25,7 +25,7 @@ export default function Exercise() {
     <div>
       <Header />
       <div className="exercise d-flex flex-column align-items-center">
-        <h2 className='title'>Make Your Workout with Us!</h2>
+        <h2 className='title'>Make Your Workout with Us !</h2>
 
         {/* Dropdown menu for selecting user */}
         <div>
