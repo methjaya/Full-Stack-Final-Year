@@ -41,7 +41,7 @@ const ChatScreen = ({ userType, socket }) => {
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`message ${message.user === 'trainer' ? 'trainer' : 'client'}`}
+            className={`message ${message.user === 'trainer' ? 'trainer-message' : 'client-message'}`}
           >
             <span className="message-sender">{message.user === 'trainer' ? 'Trainer' : 'Client'}:</span>
             <span className="message-text">{message.text}</span>

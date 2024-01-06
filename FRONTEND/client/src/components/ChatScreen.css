@@ -26,7 +26,7 @@
   }
   
   .client {
-    background-color: #2196F3;
+    background-color: #ff8133;
     color: white;
     align-self: flex-end;
   }
@@ -60,6 +60,19 @@
   }
   
   button:hover {
-    background-color: #0b7dda;
+    background-color: #ff8133
   }
+
+.trainer-message {
+  background-color: #4CAF50;
+  color: white;
+  align-self: flex-start;
+}
+
+.client-message {
+  background-color: #2196F3;
+  color: white;
+  align-self: flex-end;
+}
+
   
