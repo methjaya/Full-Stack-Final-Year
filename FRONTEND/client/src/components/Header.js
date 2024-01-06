@@ -12,7 +12,6 @@ export default function Header() {
   const isHomePage = location.pathname === '/';
   const isLoginPage = location.pathname === '/login';
   const isSignupPage = location.pathname === '/signup';
-  const isTalkPage = location.pathname === '/talk';
 
 
   return (
@@ -30,7 +29,6 @@ export default function Header() {
               {/* use eventKey to show navbar style from react bootstrap */}
               <Nav.Link as={Link} to="/exercise" eventKey="1" >Create</Nav.Link>
               <Nav.Link as={Link} to="/history" eventKey="2">Workout</Nav.Link>
-              <Nav.Link as={Link} to="/talk" eventKey="3">Talk</Nav.Link>
               <Nav.Link onClick={Auth.logout} >Logout </Nav.Link>
             </Nav>
           </Navbar.Collapse>
