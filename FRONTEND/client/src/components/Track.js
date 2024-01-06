@@ -1,84 +1,75 @@
 import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Auth from "../utils/auth";
-import { createResistance } from '../utils/API';
+import { setTrack } from '../utils/API';
 import Header from "./Header";
 import resistanceIcon from "../assets/images/resistance-w.png"
 
 export default function Track() {
-    const [resistanceForm, setTrackForm] = useState({
+    const [absForm, setTrackForm] = useState({
         name: "",
         distance: "",
         time: "",
-        date: ""
+        schedule: ""
 
     })
-    const [startDate, setStartDate] = useState(new Date());
+
     const [message, setMessage] = useState("");
-    const loggedIn = Auth.isLoggedIn();
+    const isLoggedIn = Auth.isLoggedIn();
 
-    const handleDateChange = date => {
-        setStartDate(date);
-        handleResistanceChange({
-            target: { name: "date", value: date }
-        })
-    }
 
-    const handleResistanceChange = (event) => {
+    const onTrackChange = (event) => {
         const { name, value } = event.target;
-        resistanceForm({ ...resistanceForm, [name]: value })
+        setTrackForm({ ...absForm, [name]: value })
 
     }
 
-    const validateForm = (form) => {
-        return form.name && form.weight && form.sets && form.reps && form.date;
-    }
 
-    const handleResistanceSubmit = async (event) => {
+    const onTrackSubmit = async (event) => {
         event.preventDefault();
 
-        //get token
-        const token = loggedIn ? Auth.getToken() : null;
-        if (!token) return false;
 
-        // get user id 
-        const userId = Auth.getUserId();
 
-        // resistance submit
-        if (validateForm(resistanceForm)) {
-            try {
-                // add userid to resistance form
-                resistanceForm.userId = userId;
+        try {
+            const token = Auth.getJwtToken();
+            if (!token) throw new Error('Unauthorized!');
 
-                const response = await createResistance(resistanceForm, token);
+            const user = Auth.getUserId();
 
-                if (!response.ok) {
-                    throw new Error('something went wrong!');
+            const workoutData = {
+                "uid": user.uid,
+                "workouts": {
+                    "name": absForm.name,
+                    "distance": absForm.distance,
+                    "time": absForm.time,
+                    "schedule": absForm.schedule
                 }
-
-                setMessage("Resistance successfully created!")
-                setTimeout(() => {
-                    setMessage("")
-                }, 3000);
-
-            } catch (err) {
-                console.error(err)
             }
+
+            const response = await setTrack(workoutData, token);
+
+            if (!response.ok) {
+                throw new Error('Failed to add data!');
+            }
+
+            setMessage("Track Workout Created Successfully!");
+
+            setTrackForm({
+                name: "",
+                distance: "",
+                time: "",
+                schedule: ""
+    
+            });
+
+        } catch (err) {
+            setMessage("An error occured!");
+            console.log(err)
         }
-
-        // clear form input
-        resistanceForm({
-             name: "",
-        distance: "",
-        time: "",
-        date: ""
-
-        });
     }
 
-    if (!loggedIn) {
+    if (!isLoggedIn) {
         return <Navigate to="/login" />;
     }
 
@@ -87,23 +78,24 @@ export default function Track() {
             <Header />
             <div className="d-flex flex-column align-items-center">
                 <h2 className='title text-center'>Add Track Exercise</h2>
-                <form className='resistance-form d-flex flex-column' onSubmit={handleResistanceSubmit}>
+                <form className='resistance-form d-flex flex-column' onSubmit={onTrackSubmit}>
                     <div className='d-flex justify-content-center'><img alt="resistance" src={resistanceIcon} className="exercise-form-icon" /></div>
                     <label>Name:</label>
                     <input type="text" name="name" id="name" placeholder="Bench Press"
-                        value={resistanceForm.name} onChange={handleResistanceChange} />
+                        value={absForm.name} onChange={onTrackChange} />
                     <label>Distance (KM):</label>
-                    <input type="number" name="weight" id="weight" placeholder="0"
-                        value={resistanceForm.weight} onChange={handleResistanceChange} />
+                    <input type="number" name="distance" id="distance" placeholder="0"
+                        value={absForm.distance} onChange={onTrackChange} />
                     <label>Time</label>
-                    <input type="number" name="sets" id="sets" placeholder="0"
-                        value={resistanceForm.sets} onChange={handleResistanceChange} />
-                   
-                   <label >Date:</label>
-                    <DatePicker selected={startDate} value={resistanceForm.date} onChange={handleDateChange} placeholderText="mm/dd/yyyy" />
-                    <button className='submit-btn' type="submit" disabled={!validateForm(resistanceForm)} >Add</button>
+                    <input type="number" name="time" id="time" placeholder="0"
+                        value={absForm.time} onChange={onTrackChange} />
+
+                    <label >Schedule:</label>
+                    <input type="text" name="schedule" id="schedule" placeholder="Monday"
+                        value={absForm.schedule} onChange={onTrackChange} />
+                    <button className='submit-btn' type="submit" >Add</button>
                 </form>
-                <p className='message'>{message}</p>
+                <p className='message' style={{ color: 'white' }}>{message}</p>
             </div>
         </div>
     )

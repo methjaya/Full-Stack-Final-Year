@@ -2,27 +2,27 @@ import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 import Auth from "../utils/auth";
-import { setCardio } from '../utils/API';
+import { setAbs } from '../utils/API';
 import Header from "./Header";
 import cardioIcon from "../assets/images/cardio-w.png"
 
-export default function Cardio() {
-    const [cardioForm, setCardioData] = useState({
+export default function Abs() {
+    const [cardioForm, setAbsData] = useState({
         name: "",
+        reps: "",
         sets: "",
-        setDuration: "",
         schedule: ""
     })
 
-    const [message, setMessage] = useState("")
-    const isLoggedIn = Auth.isLoggedIn();
+    const [message, setMessage] = useState("");
+    const loggedIn = Auth.isLoggedIn();
 
-    const onCardioChange = (event) => {
+    const onAbsChange = (event) => {
         const { name, value } = event.target;
-        setCardioData({ ...cardioForm, [name]: value })
+        setAbsData({ ...cardioForm, [name]: value })
     }
 
-    const onCardioSubmit = async (event) => {
+    const onAbsSubmit = async (event) => {
         event.preventDefault();
 
         try {
@@ -36,23 +36,23 @@ export default function Cardio() {
                 "workouts": {
                     "name": cardioForm.name,
                     "sets": cardioForm.sets,
-                    "setDuration": cardioForm.setDuration,
+                    "reps": cardioForm.reps,
                     "schedule": cardioForm.schedule
                 }
             }
 
-            const response = await setCardio(workoutData, token);
+            const response = await setAbs(workoutData, token);
 
             if (!response.ok) {
                 throw new Error('Failed to add data!');
             }
 
-            setMessage("Cardio Workout Created Successfully!");
+            setMessage("Abs Workout Created Successfully!");
 
-            setCardioData({
+            setAbsData({
                 name: "",
+                reps: "",
                 sets: "",
-                setDuration: "",
                 schedule: ""
             });
 
@@ -63,7 +63,7 @@ export default function Cardio() {
 
     }
 
-    if (!isLoggedIn) {
+    if (!loggedIn) {
         return <Navigate to="/login" />;
     }
 
@@ -71,21 +71,21 @@ export default function Cardio() {
         <div className='cardio'>
             <Header />
             <div className="d-flex flex-column align-items-center">
-                <h2 className='title text-center'>Add Cardio Exercise</h2>
-                <form className='cardio-form d-flex flex-column' onSubmit={onCardioSubmit}>
+                <h2 className='title text-center'>Add Abs Exercise</h2>
+                <form className='cardio-form d-flex flex-column' onSubmit={onAbsSubmit}>
                     <div className='d-flex justify-content-center'><img alt="cardio" src={cardioIcon} className="exercise-form-icon" /></div>
                     <label >Name:</label>
                     <input type="text" name="name" id="name" placeholder="Running"
-                        value={cardioForm.name} onChange={onCardioChange} />
+                        value={cardioForm.name} onChange={onAbsChange} />
+                    <label >Reps:</label>
+                    <input type="number" name="reps" id="reps" placeholder="0"
+                        value={cardioForm.reps} onChange={onAbsChange} />
                     <label >Sets:</label>
                     <input type="number" name="sets" id="sets" placeholder="0"
-                        value={cardioForm.sets} onChange={onCardioChange} />
-                    <label >Set Duration (minutes):</label>
-                    <input type="number" name="setDuration" id="setDuration" placeholder="0"
-                        value={cardioForm.setDuration} onChange={onCardioChange} />
+                        value={cardioForm.sets} onChange={onAbsChange} />
                     <label>Schedule:</label>
                     <input type="text" name="schedule" id="schedule" placeholder="Monday"
-                        value={cardioForm.schedule} onChange={onCardioChange} />
+                        value={cardioForm.schedule} onChange={onAbsChange} />
                     <button className='submit-btn cardio-submit-btn' type="submit">Add</button>
                 </form>
                 <p className='message' style={{ color: 'white' }}>{message}</p>

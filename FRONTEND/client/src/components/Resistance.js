@@ -1,84 +1,78 @@
 import React, { useState } from 'react'
 import { Navigate } from 'react-router-dom';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Auth from "../utils/auth";
-import { createResistance } from '../utils/API';
+import { setStrength } from '../utils/API';
 import Header from "./Header";
 import resistanceIcon from "../assets/images/resistance-w.png"
+import { useLocation } from 'react-router-dom';
 
 export default function Resistance() {
-    const [resistanceForm, setResistanceForm] = useState({
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const uid = queryParams.get('data');
+
+    const [strengthData, setStrengthData] = useState({
         name: "",
         weight: "",
         sets: "",
         reps: "",
-        date: ""
+        schedule: ""
     })
-    const [startDate, setStartDate] = useState(new Date());
+
     const [message, setMessage] = useState("");
-    const loggedIn = Auth.isLoggedIn();
+    const isLoggedIn = Auth.isLoggedIn();
 
-    const handleDateChange = date => {
-        setStartDate(date);
-        handleResistanceChange({
-            target: { name: "date", value: date }
-        })
-    }
 
-    const handleResistanceChange = (event) => {
+    const onStrengthChange = (event) => {
+
         const { name, value } = event.target;
-        setResistanceForm({ ...resistanceForm, [name]: value })
+        setStrengthData({ ...strengthData, [name]: value })
 
     }
 
-    const validateForm = (form) => {
-        return form.name && form.weight && form.sets && form.reps && form.date;
-    }
 
-    const handleResistanceSubmit = async (event) => {
+    const onStrengthSubmit = async (event) => {
         event.preventDefault();
 
-        //get token
-        const token = loggedIn ? Auth.getToken() : null;
-        if (!token) return false;
+        try {
+            const token = Auth.getJwtToken();
+            if (!token) throw new Error('Unauthorized!');
 
-        // get user id 
-        const userId = Auth.getUserId();
-
-        // resistance submit
-        if (validateForm(resistanceForm)) {
-            try {
-                // add userid to resistance form
-                resistanceForm.userId = userId;
-
-                const response = await createResistance(resistanceForm, token);
-
-                if (!response.ok) {
-                    throw new Error('something went wrong!');
+            const workoutData = {
+                "uid": uid,
+                "workouts": {
+                    "name": strengthData.name,
+                    "startingWeight": strengthData.weight,
+                    "sets": strengthData.sets,
+                    "reps": strengthData.reps,
+                    "schedule": strengthData.schedule
                 }
-
-                setMessage("Resistance successfully created!")
-                setTimeout(() => {
-                    setMessage("")
-                }, 3000);
-
-            } catch (err) {
-                console.error(err)
             }
+
+            const response = await setStrength(workoutData, token);
+
+            if (!response.ok) {
+                throw new Error('Failed to add data!');
+            }
+
+            setMessage("Strength Workout Created Successfully!");
+
+            setStrengthData({
+                name: "",
+                weight: "",
+                sets: "",
+                reps: "",
+                schedule: ""
+            });
+
+        } catch (err) {
+            setMessage("An error occured!");
+            console.log(err)
         }
 
-        // clear form input
-        setResistanceForm({
-            name: "",
-            weight: "",
-            sets: "",
-            reps: "",
-            date: ""
-        });
     }
 
-    if (!loggedIn) {
+    if (!isLoggedIn) {
         return <Navigate to="/login" />;
     }
 
@@ -87,25 +81,26 @@ export default function Resistance() {
             <Header />
             <div className="d-flex flex-column align-items-center">
                 <h2 className='title text-center'>Add Resistance Exercise</h2>
-                <form className='resistance-form d-flex flex-column' onSubmit={handleResistanceSubmit}>
+                <form onSubmit={onStrengthSubmit} className='resistance-form d-flex flex-column'>
                     <div className='d-flex justify-content-center'><img alt="resistance" src={resistanceIcon} className="exercise-form-icon" /></div>
                     <label>Name:</label>
                     <input type="text" name="name" id="name" placeholder="Bench Press"
-                        value={resistanceForm.name} onChange={handleResistanceChange} />
-                    <label>Weight (lbs):</label>
+                        value={strengthData.name} onChange={onStrengthChange} required />
+                    <label>Start Weight (lbs):</label>
                     <input type="number" name="weight" id="weight" placeholder="0"
-                        value={resistanceForm.weight} onChange={handleResistanceChange} />
+                        value={strengthData.weight} onChange={onStrengthChange} required />
                     <label>Sets:</label>
                     <input type="number" name="sets" id="sets" placeholder="0"
-                        value={resistanceForm.sets} onChange={handleResistanceChange} />
+                        value={strengthData.sets} onChange={onStrengthChange} required />
                     <label>Reps:</label>
                     <input type="number" name="reps" id="reps" placeholder="0"
-                        value={resistanceForm.reps} onChange={handleResistanceChange} />
-                    <label >Date:</label>
-                    <DatePicker selected={startDate} value={resistanceForm.date} onChange={handleDateChange} placeholderText="mm/dd/yyyy" />
-                    <button className='submit-btn' type="submit" disabled={!validateForm(resistanceForm)} >Add</button>
+                        value={strengthData.reps} onChange={onStrengthChange} required />
+                    <label >Schedule:</label>
+                    <input type="text" name="schedule" id="schedule" placeholder="Monday"
+                        value={strengthData.schedule} onChange={onStrengthChange} required />
+                    <button className='submit-btn' type="submit" >Add</button>
                 </form>
-                <p className='message'>{message}</p>
+                <p className='message' style={{ color: 'white' }}>{message}</p>
             </div>
         </div>
     )

@@ -40,8 +40,10 @@ router.get('/details', isAuthenticated, async (req, res) => {
             if (userWorkout != null) {
                 res.status(200).json(
                     {
-                        schedule: userWorkout.schedule ?? {},
-                        workouts: userWorkout.workouts ?? []
+                        "strength" : userWorkout.strength,
+                        "abs" : userWorkout.abs,
+                        "cardio" : userWorkout.cardio,
+                        "track" : userWorkout.track,
                     }
                 );
             } else {
@@ -62,18 +64,90 @@ router.get('/details', isAuthenticated, async (req, res) => {
 
 
 
+
+
 router.post('/strength/set', isAuthenticated, checkAdminAuth, async (req, res) => {
     try {
         if (req.body.workouts && req.body.uid) {
 
             const { workouts, uid } = req.body;
 
+            workouts.type = "s";
             // userWorkout = await Workout.create(newWorkout);
             userWorkout = await Workout.findOneAndUpdate({ _id: uid },
-                { $set: { strength: workouts} },
-                { new: true, upsert: true });
+                { $push: { strength: workouts} , upsert : true},
+                { new: true, upsert: true});
+                console.log(userWorkout);
+            res.status(200).send({message : "Strength workout added successfully"});
 
-            res.status(200).send(userWorkout);
+        } else {
+            res.send("empty credentials");
+        }
+
+    } catch (err) {
+        res.send({ mesage: 'Failed to execute the operation' })
+    }
+});
+
+router.post('/cardio/set', isAuthenticated, checkAdminAuth, async (req, res) => {
+    try {
+        if (req.body.workouts && req.body.uid) {
+
+            const { workouts, uid } = req.body;         
+
+            workouts.type = "c";
+            // userWorkout = await Workout.create(newWorkout);
+            userWorkout = await Workout.findOneAndUpdate({ _id: uid },
+                { $push: { cardio: workouts} , upsert : true},
+                { new: true, upsert: true});
+
+            res.status(200).send({message : "Cardio added successfully"});
+
+        } else {
+            res.send("empty credentials");
+        }
+
+    } catch (err) {
+        res.send({ mesage: 'Failed to execute the operation' })
+    }
+});
+
+
+router.post('/track/set', isAuthenticated, checkAdminAuth, async (req, res) => {
+    try {
+        if (req.body.workouts && req.body.uid) {
+
+            const { workouts, uid } = req.body;         
+
+            workouts.type = "t";
+            userWorkout = await Workout.findOneAndUpdate({ _id: uid },
+                { $push: { track: workouts} , upsert : true},
+                { new: true, upsert: true});
+
+            res.status(200).send({message : "Track workout added successfully"});
+
+        } else {
+            res.send("empty credentials");
+        }
+
+    } catch (err) {
+        res.send({ mesage: 'Failed to execute the operation' })
+    }
+});
+
+
+router.post('/abs/set', isAuthenticated, checkAdminAuth, async (req, res) => {
+    try {
+        if (req.body.workouts && req.body.uid) {
+
+            const { workouts, uid } = req.body;         
+
+            workouts.type = "a";
+            userWorkout = await Workout.findOneAndUpdate({ _id: uid },
+                { $push: { abs: workouts} , upsert : true},
+                { new: true, upsert: true});
+
+            res.status(200).send({message : "Abs workout added successfully"});
 
         } else {
             res.send("empty credentials");

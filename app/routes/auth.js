@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
             //     res.send('Already logged in');
             // } else {
                 const { email, password } = req.body;
-
+                
                 const user = await User.findOne({ email: email })
 
                 if (!user) {
@@ -38,7 +38,7 @@ router.post('/login', async (req, res) => {
                 const hashedLoginPass = await bcrypt.compare(password, user.password)
                 if (hashedLoginPass) {
 
-                    const accessToken = jwt.sign({ uid: user._id }, process.env.SECRET, { expiresIn: '24h' });
+                    const accessToken = jwt.sign({ uid: user._id, name :user.name, role : user.role}, process.env.SECRET, { expiresIn: '24h' });
 
                     return res
                         .status(200)
@@ -49,9 +49,9 @@ router.post('/login', async (req, res) => {
                 }
             }
 
-        // } else {
-        //     res.status(401).send({ message: "empty credentials" });
-        // }
+         else {
+            res.status(401).send({ message: "empty credentials" });
+        }
     } catch (err) {
         console.log(err)
         res.send({ mesage: 'Failed to execute the operation' });

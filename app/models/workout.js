@@ -3,6 +3,10 @@ const mongoose = require('mongoose')
 
 const Strength = new mongoose.Schema({
     _id: false,
+    type: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
@@ -27,6 +31,10 @@ const Strength = new mongoose.Schema({
 
 const Cardio = new mongoose.Schema({
     _id: false,
+    type: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
@@ -47,6 +55,10 @@ const Cardio = new mongoose.Schema({
 
 const Abs = new mongoose.Schema({
     _id: false,
+    type: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
@@ -67,6 +79,10 @@ const Abs = new mongoose.Schema({
 
 const Track = new mongoose.Schema({
     _id: false,
+    type: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
@@ -79,7 +95,7 @@ const Track = new mongoose.Schema({
         type: String,
         required: true,
     },
-    date: {
+    schedule: {
         type: String,
         required: true,
     },

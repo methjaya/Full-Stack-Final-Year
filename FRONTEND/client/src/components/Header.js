@@ -18,21 +18,37 @@ export default function Header() {
 
     <Navbar collapseOnSelect expand="sm" variant="dark" bg={loggedIn && !isHomePage ? "dark" : null}>
       {loggedIn ? (
-        <>
-          <Navbar.Brand as={Link} to="/" className="brand brand-logged d-flex align-items-center">
-            <img alt="heart" style={{ display: "inline" }} src={heart} className="heart-icon" />
-            GymPro
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
-            <Nav >
-              {/* use eventKey to show navbar style from react bootstrap */}
-              <Nav.Link as={Link} to="/exercise" eventKey="1" >Create</Nav.Link>
-              <Nav.Link as={Link} to="/history" eventKey="2">Workout</Nav.Link>
-              <Nav.Link onClick={Auth.logout} >Logout </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </>) :
+        Auth.getProfile().role === "admin" ?
+          (<>
+            <Navbar.Brand as={Link} to="/" className="brand brand-logged d-flex align-items-center">
+              <img alt="heart" style={{ display: "inline" }} src={heart} className="heart-icon" />
+              GymPro
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+              <Nav >
+                {/* use eventKey to show navbar style from react bootstrap */}
+                <Nav.Link as={Link} to="/exercise" eventKey="1" >Create</Nav.Link>
+                <Nav.Link as={Link} to="/history" eventKey="2">Workout</Nav.Link>
+                <Nav.Link onClick={Auth.logout} >Logout </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </>) : (
+          <>
+            <Navbar.Brand as={Link} to="/" className="brand brand-logged d-flex align-items-center">
+              <img alt="heart" style={{ display: "inline" }} src={heart} className="heart-icon" />
+              GymPro
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+              <Nav >
+                {/* use eventKey to show navbar style from react bootstrap */}
+                <Nav.Link as={Link} to="/history" eventKey="2">Workout</Nav.Link>
+                <Nav.Link onClick={Auth.logout} >Logout </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </>)
+          ) :
         (<Navbar.Brand as={Link} to="/" className={`brand brand-new mx-auto d-flex align-items-center
           ${isLoginPage || isSignupPage ? "brand-text" : null}`}>
           <img alt="heart" style={{ display: "inline" }} src={heart} className="heart-icon" />
@@ -41,3 +57,7 @@ export default function Header() {
     </Navbar >
   );
 }
+
+
+
+

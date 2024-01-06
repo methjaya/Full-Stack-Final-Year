@@ -1,29 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, Link } from 'react-router-dom';
-import { getMe } from '../utils/API';
+import { workoutDetails } from '../utils/API';
 import Auth from "../utils/auth"
-import { formatDate } from '../utils/dateFormat';
 import Header from "../components/Header";
 import cardioIcon from "../assets/images/cardio.png"
 import resistanceIcon from "../assets/images/resistance.png"
 
 export default function History() {
-  const [userData, setUserData] = useState({});
-  const [exerciseData, setExerciseData] = useState([])
-  const [displayedItems, setDisplayedItems] = useState(6);
+  const [workoutData, setWorkoutData] = useState([])
 
-  const loggedIn = Auth.isLoggedIn();
-  let currentDate;
+  const isLoggedIn = Auth.isLoggedIn();
 
-  // everytime loggedIn/userdata changes, the getuserdata runs
   useEffect(() => {
-    const getUserData = async () => {
+    const getWorkout = async () => {
       try {
-        //get token
-        const token = loggedIn ? Auth.getToken() : null;
+
+        const token = isLoggedIn ? Auth.getJwtToken() : null;
         if (!token) return false;
 
-        const response = await getMe(token)
+        const response = await workoutDetails(token);
 
         if (!response.ok) {
           throw new Error("something went wrong!")
@@ -31,86 +26,91 @@ export default function History() {
 
         const user = await response.json()
 
-        // combine cardio and resistance data together
-        if (user.cardio && user.resistance) {
-          const cardio = user.cardio;
-          const resistance = user.resistance;
-          const exercise = cardio.concat(resistance);
 
-          // sort exercise data by date
-          exercise.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date)
-          })
+        const cardio = user.cardio;
+        const abs = user.abs;
+        const track = user.track;
+        const strength = user.strength;
+        const exercise = cardio.concat(strength).concat(abs).concat(track);
 
-          //format date in exercise data
-          exercise.forEach(item => {
-            item.date = formatDate(item.date)
-          });
+        console.log(exercise);
+        setWorkoutData(exercise)
 
-          setUserData(user);
-          setExerciseData(exercise)
-        }
       } catch (err) { console.error(err) }
     };
-    getUserData();
-  }, [loggedIn, userData])
-
-  function showMoreItems() {
-    setDisplayedItems(displayedItems + 6);
-  }
+    getWorkout();
+  }, [isLoggedIn])
 
 
-  // If the user is not logged in, redirect to the login page
-  if (!loggedIn) {
+  if (!isLoggedIn) {
     return <Navigate to="/login" />;
   }
 
   return (
     <div className='history'>
       <Header />
-      <div className="d-flex flex-column align-items-center">
-        <h2 className='title'>History</h2>
-        {exerciseData.length ?
+      <div className="d-flex flex-column align-items-center" style={{paddingRight : "5%"}}>
+        <h2 className='title' style={{paddingLeft : "5%"}}>Workouts</h2>
+        {workoutData.length ?
           (<div className='history-data'>
-            {/* map the exercise data  */}
-            {exerciseData.slice(0, displayedItems).map((exercise) => {
-              let dateToDisplay;
-              if (exercise.date !== currentDate) {
-                currentDate = exercise.date;
-                dateToDisplay = exercise.date;
+
+            {workoutData.map((exercise) => {
+
+              let exerciseCard;
+              if (exercise.type === "c") {
+                exerciseCard = (
+                  <div className="history-card cardio-title d-flex" style={{width : "200%"}}>
+                    <div className='d-flex align-items-center'><img alt="cardio" src={cardioIcon} className="history-icon" /></div>
+                    <div>
+                      <p className='history-name'>{exercise.name}</p>
+                      <p className='history-index'>{exercise.sets} Sets</p>
+                      <p className='history-index'>{exercise.setDuration} min</p>
+                      <p className='history-index'>{exercise.schedule}</p>
+                    </div>
+                  </div>);
+              } else if (exercise.type === "a") {
+                exerciseCard = (<div className="history-card resistance-title d-flex" style={{backgroundColor:"#ffd7b5",width : "200%"}}>
+                  <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
+                  <div >
+                    <p className='history-name'>{exercise.name}</p>
+                    <p className='history-index'>{exercise.reps} Reps </p>
+                    <p className='history-index'>{exercise.sets} Sets</p>
+                    <p className='history-index'>{exercise.schedule}</p>
+                  </div>
+                </div>)
+              } else if (exercise.type === "s") {
+                exerciseCard = (
+                  <div className="history-card resistance-title d-flex" style={{width : "200%"}} >
+                    <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
+                    <div >
+                      <p className='history-name'>{exercise.name}</p>
+                      <p className='history-index'>{exercise.startingWeight} pounds</p>
+                      <p className='history-index'>{exercise.reps} Reps</p>
+                      <p className='history-index'>{exercise.sets} Sets</p>
+                      <p className='history-index'>{exercise.schedule}</p>
+                    </div>
+                  </div>
+                )
+              } else {
+                exerciseCard = (
+                  <div className="history-card resistance-title d-flex" style={{backgroundColor:"#d3ffd8",width : "160%"}}>
+                    <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
+                    <div >
+                      <p className='history-name'>{exercise.name}</p>
+                      <p className='history-index'>{exercise.distance} miles</p>
+                      <p className='history-index'>{exercise.timne} min</p>
+                      <p className='history-index'>{exercise.schedule}</p>
+                    </div>
+                  </div>)
               }
               return (
-                <div className='history-div d-flex' key={exercise._id}>
-                  <div className='date d-flex align-items-center'>{dateToDisplay}</div>
-                  <Link className='text-decoration-none' to={`/history/${exercise.type}/${exercise._id}`}>
-                    {exercise.type === "cardio" ? (
-                      <div className="history-card cardio-title d-flex">
-                        <div className='d-flex align-items-center'><img alt="cardio" src={cardioIcon} className="history-icon" /></div>
-                        <div>
-                          <p className='history-name'>{exercise.name}</p>
-                          <p className='history-index'>{exercise.distance} miles </p>
-                        </div>
-                      </div>) : (
-                      <div className="history-card resistance-title d-flex">
-                        <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
-                        <div >
-                          <p className='history-name'>{exercise.name}</p>
-                          <p className='history-index'>{exercise.weight} pounds </p>
-                        </div>
-                      </div>)}
-                  </Link>
+                <div className='history-div d-flex' style={{width : "160%"}}>                 
+                    {
+                      exerciseCard
+                    }              
                 </div>
               )
             })}
-            {/* show more items  */}
-            {exerciseData.length > displayedItems ?
-              (<div className='d-flex justify-content-center'>
-                <button className='show-btn' onClick={showMoreItems}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
-                  Show More
-                </button>
-              </div>)
-              : null}
           </div>)
           :
           (<div>
