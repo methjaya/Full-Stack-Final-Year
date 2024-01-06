@@ -1,7 +1,7 @@
 // History.js
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { getMe } from '../utils/API';
+import {  } from '../utils/API';
 import Auth from "../utils/auth"
 import { formatDate } from '../utils/dateFormat';
 import Header from "../components/Header";
@@ -21,35 +21,7 @@ export default function History() {
 
   useEffect(() => {
     const getUserData = async () => {
-      try {
-        const token = loggedIn ? Auth.getToken() : null;
-        if (!token) return false;
-
-        const response = await getMe(token)
-
-        if (!response.ok) {
-          throw new Error("something went wrong!")
-        }
-
-        const user = await response.json()
-
-        if (user.cardio && user.resistance) {
-          const cardio = user.cardio;
-          const resistance = user.resistance;
-          const exercise = cardio.concat(resistance);
-
-          exercise.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date)
-          })
-
-          exercise.forEach(item => {
-            item.date = formatDate(item.date)
-          });
-
-          setUserData(user);
-          setExerciseData(exercise)
-        }
-      } catch (err) { console.error(err) }
+      
     };
 
     getUserData();
