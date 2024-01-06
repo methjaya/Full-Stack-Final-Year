@@ -30,6 +30,8 @@ export default function Header() {
                 {/* use eventKey to show navbar style from react bootstrap */}
                 <Nav.Link as={Link} to="/exercise" eventKey="1" >Create</Nav.Link>
                 <Nav.Link as={Link} to="/history" eventKey="2">Workout</Nav.Link>
+                <Nav.Link as={Link} to="/talk" eventKey="3">Talk</Nav.Link>
+                <Nav.Link as={Link} to="/profile" eventKey="4">Profile</Nav.Link>
                 <Nav.Link onClick={Auth.logout} >Logout </Nav.Link>
               </Nav>
             </Navbar.Collapse>
@@ -44,6 +46,8 @@ export default function Header() {
               <Nav >
                 {/* use eventKey to show navbar style from react bootstrap */}
                 <Nav.Link as={Link} to="/history" eventKey="2">Workout</Nav.Link>
+                <Nav.Link as={Link} to="/talk" eventKey="3">Talk</Nav.Link>
+              ù<Nav.Link as={Link} to="/profile" eventKey="4">Profile</Nav.Link>
                 <Nav.Link onClick={Auth.logout} >Logout </Nav.Link>
               </Nav>
             </Navbar.Collapse>
@@ -57,7 +61,6 @@ export default function Header() {
     </Navbar >
   );
 }
-
 
 
 
