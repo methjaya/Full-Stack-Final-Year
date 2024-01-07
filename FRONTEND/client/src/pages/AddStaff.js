@@ -64,7 +64,7 @@ const AddStaff = () => {
       <div className="d-flex flex-column align-items-center justify-content-center ">
         <div className="tab-pane fade active show" id="account-general">
           <div className="card-body media align-items-center">
-            <h3 className="text-center mb-3">Change Details</h3>
+            <h3 className="text-center mb-3">Add Staff</h3>
             <img
               src="https://static.vecteezy.com/system/resources/previews/013/146/221/non_2x/athlete-athletics-avatar-fitness-gym-blue-dotted-line-line-icon-free-vector.jpg"
               alt="Avatar"
