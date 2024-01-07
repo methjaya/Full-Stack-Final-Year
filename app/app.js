@@ -31,7 +31,6 @@ DBConnect();
 wss.on('connection', function connection(ws, request) {
     console.log('A new client Connected!');
     const token = request.url.substr(1);
-    let user;
 
     jwt.verify(token, process.env.SECRET, (err, user) => {
         if (err) {
@@ -60,13 +59,7 @@ app.use('/workout', require('./routes/workout_route.js'));
 app.use('/admin', require('./routes/admin.js'));
 
 
-app.get('/dashboard', isAuthenticated, checkAdminAuth, (req, res) => {
-    res.send(`AUTHORIZED! Dashboard - User ID: ${req.user.uid}`);
-});
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/index.html'));
-});
 
 
 

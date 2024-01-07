@@ -10,13 +10,13 @@ import Exercise from "./pages/Exercise";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Error from "./pages/Error";
-import SingleExercise from "./components/SingleExercise"
 import Cardio from "./components/Cardio";
 import Abs from "./components/Abs";
 import Resistance from "./components/Resistance";
 import Track from "./components/Track";
 import Talk from "./pages/Talk";
 import Profile from "./pages/Profile";
+import EditWorkouts from "./pages/Edit-workouts";
 
 function App() {
   return (
@@ -26,14 +26,14 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/history" element={<History />} />
-        <Route path="/history/:type/:id" element={<SingleExercise />} />
         <Route path="/exercise" element={<Exercise />} />
         <Route path="/exercise/cardio" element={<Cardio />} />
         <Route path="/exercise/abs" element={<Abs />} />
-        <Route path="/exercise/resistance" element={<Resistance />} />
+        <Route path="/exercise/strength" element={<Resistance />} />
         <Route path="/exercise/track" element={<Track />} />
         <Route path="/talk" element={<Talk />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/workouts/edit" element={<EditWorkouts />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router >

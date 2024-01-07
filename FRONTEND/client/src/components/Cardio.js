@@ -5,8 +5,13 @@ import Auth from "../utils/auth";
 import { setCardio } from '../utils/API';
 import Header from "./Header";
 import cardioIcon from "../assets/images/cardio-w.png"
+import { useLocation } from 'react-router-dom';
 
 export default function Cardio() {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const uid = queryParams.get('data');
+
     const [cardioForm, setCardioData] = useState({
         name: "",
         sets: "",
@@ -29,10 +34,8 @@ export default function Cardio() {
             const token = Auth.getJwtToken();
             if (!token) throw new Error('Unauthorized!');
 
-            const user = Auth.getUserId();
-
             const workoutData = {
-                "uid": user.uid,
+                "uid": uid,
                 "workouts": {
                     "name": cardioForm.name,
                     "sets": cardioForm.sets,

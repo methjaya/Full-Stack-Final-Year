@@ -1,4 +1,3 @@
-// get logged in user's info 
 
 export const workoutDetails = (token) => {
   return fetch('http://localhost:8080/workout/details', {
@@ -6,6 +5,17 @@ export const workoutDetails = (token) => {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
+  });
+};
+
+export const userWorkoutDetails = (token, uid) => {
+  return fetch('http://localhost:8080/workout/user-workouts', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(uid)
   });
 };
 
@@ -26,14 +36,6 @@ export const getUsers = (token) => {
     },
   });
 };
-
-// export const loginUser = (userData) => {
-//   return fetch("/api/user/login", {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify(userData),
-//   });
-// };
 
 export const login = (userData) => {
   return fetch("http://localhost:8080/auth/login", {
@@ -88,38 +90,16 @@ export const setStrength = (workoutData, token) => {
   })
 }
 
-export const getCardioById = (cardioId, token) => {
-  return fetch(`/api/exercise/cardio/${cardioId}`, {
+export const deleteWorkout = (workoutData, token) => {
+  return fetch("http://localhost:8080/workout/delete", {
+    method: "POST",
     headers: {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
-    }
+    },
+    body: JSON.stringify(workoutData)
   })
 }
 
-export const getResistanceById = (resistanceId, token) => {
-  return fetch(`/api/exercise/resistance/${resistanceId}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
-    }
-  })
-}
 
-export const deleteCardio = (cardioId, token) => {
-  return fetch(`/api/exercise/cardio/${cardioId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: `Bearer ${token}`,
-    }
-  })
-}
 
-export const deleteResistance = (resistanceId, token) => {
-  return fetch(`/api/exercise/resistance/${resistanceId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: `Bearer ${token}`,
-    }
-  })
-}

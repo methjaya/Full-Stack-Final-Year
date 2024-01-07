@@ -15,7 +15,7 @@ const ChatScreen = ({ userType }) => {
 
     const newSocket = new WebSocket(`ws://localhost:8080/${token}`);
 
-    // Set up event listeners or any other configuration
+   
     newSocket.onopen = () => {
       console.log('WebSocket connection opened');
     };
@@ -31,14 +31,14 @@ const ChatScreen = ({ userType }) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     };
 
-    // Save the socket instance in state
+
     setSocket(newSocket);
 
-    // Cleanup on unmount
+
     return () => {
       newSocket.close();
     };
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+  }, []); 
 
   const sendMessage = () => {
     try {
@@ -74,7 +74,7 @@ const ChatScreen = ({ userType }) => {
               style={{display:"flex", marginLeft:"auto", marginRight:"auto"}}
             >
               <span className="message-sender" style={{color:'yellow'}}>{message.name} :</span>
-              <span className="message-text" style={{padding: '0 10px'}}>{message.text}</span>
+              <span className="message-text" style={{padding: '0 10px',color:'white'}}>{message.text}</span>
             </div>
           )
         })}
