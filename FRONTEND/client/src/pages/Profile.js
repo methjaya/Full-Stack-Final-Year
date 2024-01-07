@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Navigate, Link } from 'react-router-dom';
-import Auth from "../utils/auth"
+import React, { useEffect, useState } from 'react';
+import {
+  Link,
+  Navigate
+} from 'react-router-dom';
 import Header from "../components/Header";
+import "../index.css";
+import Auth from "../utils/auth";
+import Changepass from './Changepass';
+import General from './General';
+import Updateprof from './Updateprof';
+import Workout from './Workout';
 
 export default function History() {
   const [userData, setUserData] = useState({});
@@ -29,12 +37,55 @@ export default function History() {
   }
 
   return (
-    <div className='history'>
+    <div className='#history'>
+
       <Header />
-      <div className="d-flex flex-column align-items-center">
-        <h2 className='title'>Shehan you can customize from hereeeeee!!!</h2>
-        
-      </div >
+
+      <body>
+        <div className="container light-style flex-grow-1 container-p-y">
+          <h4 className="font-weight-bold py-3 mb-4">Account settings</h4>
+          <div className="card overflow-hidden">
+            <div className="row no-gutters row-bordered row-border-light">
+              <div className="col-md-3 pt-0">
+                <div className="list-group list-group-flush account-settings-links">
+                  <Link to={General} className="list-group-item list-group-item-action" data-toggle="list" >
+                    General
+                  </Link>
+                  <Link to={Changepass} className="list-group-item list-group-item-action " data-toggle="list" >
+                    Change password
+                  </Link>
+                  <Link to={Updateprof} className="list-group-item list-group-item-action " data-toggle="list">
+                    Edit Profile
+                  </Link>
+                  <Link to={Workout}className="list-group-item list-group-item-action active" data-toggle="list" >
+                    Workout
+                  </Link>
+                </div>
+              </div>
+              <div className="col-md-9">
+                <div className="tab-content">
+                  <div className="tab-pane fade active show" id="account-general">
+                    <div className="card-body media align-items-center">
+                      <Workout/>
+                  </div>
+                  {/* Continue adding other tab panes */}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="text-right mt-3">
+            <button type="button" className="btn btn-primary">
+              Save changes
+            </button>
+            &nbsp;
+            <button type="button" className="btn btn-default">
+              Cancel
+            </button>
+          </div>
+          </div>
+        </div>
+        {/* Include your script tags here */}
+      </body>
     </div >
   )
 }
