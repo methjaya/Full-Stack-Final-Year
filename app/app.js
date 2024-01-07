@@ -57,6 +57,7 @@ server.listen(port, () => {
 app.use('/auth', require('./routes/auth.js'));
 app.use('/workout', require('./routes/workout_route.js'));
 app.use('/admin', require('./routes/admin.js'));
+app.use('/user', require('./routes/user_route.js'));
 
 
 

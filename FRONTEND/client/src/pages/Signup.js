@@ -36,6 +36,7 @@ export default function Signup() {
   const onFormSubmit = async (event) => {
     event.preventDefault();
 
+
     try {
 
       if (isNaN(formState.phoneNumber)) {
@@ -52,8 +53,6 @@ export default function Signup() {
 
       
       const { token } = await response.json();
-
-      console.log(token)
    
       Auth.login(token);
 

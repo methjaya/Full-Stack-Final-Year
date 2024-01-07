@@ -8,6 +8,37 @@ export const workoutDetails = (token) => {
   });
 };
 
+export const updatePassword = (token, data) => {
+  return fetch('http://localhost:8080/user/update-password', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data)
+  });
+};
+
+export const getProfileDetails = (token) => {
+  return fetch('http://localhost:8080/user/details', {
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const updateProfile = (token, data) => {
+  return fetch('http://localhost:8080/user/update-details', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data)
+  });
+};
+
 export const userWorkoutDetails = (token, uid) => {
   return fetch('http://localhost:8080/workout/user-workouts', {
     method: "POST",
