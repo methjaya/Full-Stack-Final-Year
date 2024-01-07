@@ -34,28 +34,36 @@ export default function EditWorkouts() {
                 users = allUsers
                 setUsers(allUsers);
 
-            } catch (err) { console.error(err) }
+            } catch (err) {
+                console.error(err)
+            }
         };
         getWorkout();
     }, [])
 
     useEffect(() => {
-        if (selectedUser) {
-            userWorkoutDetails(token, { "uid": selectedUser }).then((response) => {
-                if (!response.ok) {
-                    throw new Error("something went wrong!")
-                }
-                response.json().then((user) => {
-                    const cardio = user.cardio;
-                    const abs = user.abs;
-                    const track = user.track;
-                    const strength = user.strength;
-                    const exercise = cardio.concat(strength).concat(abs).concat(track);
+        try {
+            if (selectedUser) {
+                userWorkoutDetails(token, { "uid": selectedUser }).then((response) => {
+                    if (!response.ok) {
+                        setWorkoutData([]);
+                        throw new Error("something went wrong!")
+                    }
+                    response.json().then((user) => {
+                        const cardio = user.cardio;
+                        const abs = user.abs;
+                        const track = user.track;
+                        const strength = user.strength;
+                        const exercise = cardio.concat(strength).concat(abs).concat(track);
 
-                    setWorkoutData(exercise);
+                        setWorkoutData(exercise);
+                    });
                 });
-            });
+            }
+        } catch (e) {
+
         }
+
     }, [selectedUser]);
 
     if (!isLoggedIn) {
@@ -82,12 +90,11 @@ export default function EditWorkouts() {
                 });
             }
         } catch (e) {
-            console.log(e)
             alert("Failed to Delete Exercise!")
         }
 
     }
-
+    console.log(workoutData)
     return (
         <div className='history'>
             <Header />
@@ -99,7 +106,7 @@ export default function EditWorkouts() {
                     <select
                         id="userSelect"
                         value={selectedUser}
-                        onChange={(e) => { setSelectedUser(e.target.value); console.log(e.target.value) }}
+                        onChange={(e) => { setSelectedUser(e.target.value); }}
                     >
                         {users.map((user, index) => (
                             <option key={index} value={user._id}>
@@ -111,15 +118,14 @@ export default function EditWorkouts() {
                 {workoutData.length ?
                     (<div className='history-data'>
                         {workoutData.map((exercise) => {
-                            console.log(exercise);
                             let exerciseCard;
                             if (exercise.type === "df") {
                                 return;
                             }
                             if (exercise.type === "c") {
                                 exerciseCard = (
-                                    <div className="history-card cardio-title d-flex" style={{  width: "200%" ,marginLeft: "8%" }}>
-                                        <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={()=>{handleClick(exercise.type, selectedUser, exercise._id)}}></i>
+                                    <div className="history-card cardio-title d-flex" style={{ width: "200%", marginLeft: "8%" }}>
+                                        <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={() => { handleClick(exercise.type, selectedUser, exercise._id) }}></i>
                                         <div className='d-flex align-items-center'><img alt="cardio" src={cardioIcon} className="history-icon" /></div>
                                         <div style={{ paddingLeft: "10px" }}>
                                             <p className='history-name'>{exercise.name}</p>
@@ -130,8 +136,8 @@ export default function EditWorkouts() {
 
                                     </div>);
                             } else if (exercise.type === "a") {
-                                exerciseCard = (<div className="history-card resistance-title d-flex" style={{ backgroundColor: "#ffd7b5",  width: "200%" ,marginLeft: "9%" }}>
-                                    <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={()=>{handleClick(exercise.type, selectedUser, exercise._id)}}></i>
+                                exerciseCard = (<div className="history-card resistance-title d-flex" style={{ backgroundColor: "#ffd7b5", width: "200%", marginLeft: "9%" }}>
+                                    <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={() => { handleClick(exercise.type, selectedUser, exercise._id) }}></i>
                                     <div className='d-flex align-items-center'><img alt="resistance" src={absIcon} className="history-icon" /></div>
                                     <div style={{ paddingLeft: "10px" }}>
                                         <p className='history-name'>{exercise.name}</p>
@@ -142,8 +148,8 @@ export default function EditWorkouts() {
                                 </div>)
                             } else if (exercise.type === "s") {
                                 exerciseCard = (
-                                    <div className="history-card resistance-title d-flex" style={{  width: "200%" ,marginLeft: "8%" }} >
-                                        <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={()=>{handleClick(exercise.type, selectedUser, exercise._id)}}></i>
+                                    <div className="history-card resistance-title d-flex" style={{ width: "200%", marginLeft: "8%" }} >
+                                        <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={() => { handleClick(exercise.type, selectedUser, exercise._id) }}></i>
                                         <div className='d-flex align-items-center'><img alt="resistance" src={strengthIcon} className="history-icon" /></div>
                                         <div style={{ paddingLeft: "10px" }}>
                                             <p className='history-name'>{exercise.name}</p>
@@ -156,8 +162,8 @@ export default function EditWorkouts() {
                                 )
                             } else {
                                 exerciseCard = (
-                                    <div className="history-card resistance-title d-flex" style={{ backgroundColor: "#d3ffd8", width: "200%" ,marginLeft: "8%"}}>
-                                        <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={()=>{handleClick(exercise.type, selectedUser, exercise._id)}}></i>
+                                    <div className="history-card resistance-title d-flex" style={{ backgroundColor: "#d3ffd8", width: "200%", marginLeft: "8%" }}>
+                                        <i className="fa fa-times" style={{ color: "#DC8686" }} onClick={() => { handleClick(exercise.type, selectedUser, exercise._id) }}></i>
                                         <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
                                         <div style={{ paddingLeft: "10px" }}>
                                             <p className='history-name'>{exercise.name}</p>
@@ -177,7 +183,7 @@ export default function EditWorkouts() {
                         })}
                     </div>)
                     :
-                    (<div style={{ marginLeft: "8%" }}> 
+                    (<div style={{ marginLeft: "8%" }}>
                         <h3 className='history-text' >No exercise data yet...</h3>
                         <Link to="/exercise"><button className='home-btn'>Add Exercise</button></Link>
                     </div>

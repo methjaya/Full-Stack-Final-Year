@@ -1,16 +1,15 @@
 import decode from "jwt-decode";
 
-//AuthService that we instantiate a new version of for every component that imports it.
+
 class AuthService {
-  // retrieve data saved in token
+
   getProfile() {
     return decode(this.getJwtToken());
   }
 
-  // check if the user is still logged in
+ 
   isLoggedIn() {
     try {
-      // Checks if there is a saved token and it's still valid
       const token = this.getJwtToken();
 
       if (!token) {

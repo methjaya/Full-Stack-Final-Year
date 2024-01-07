@@ -23,33 +23,33 @@ router.post('/login', async (req, res) => {
             // if (req.session.isAuth) {
             //     res.send('Already logged in');
             // } else {
-                const { email, password } = req.body;
-                
-                const user = await User.findOne({ email: email })
+            const { email, password } = req.body;
 
-                if (!user) {
-                    return res.status(400).json({ msg: 'User not found' })
-                }
+            const user = await User.findOne({ email: email })
 
-                const hashedLoginPass = await bcrypt.compare(password, user.password)
-                if (hashedLoginPass) {
-
-                    const accessToken = jwt.sign({ uid: user._id, name :user.name, role : user.role}, process.env.SECRET, { expiresIn: '24h' });
-
-                    return res
-                        .status(200)
-                        .json({ status: 'You have logged in successfully', token: accessToken });
-
-                } else {
-                    return res.status(400).json({ msg: 'Invalid credentials' })
-                }
+            if (!user) {
+                return res.status(400).json({ msg: 'User not found' })
             }
 
-         else {
+            const hashedLoginPass = await bcrypt.compare(password, user.password)
+            if (hashedLoginPass) {
+
+                const accessToken = jwt.sign({ uid: user._id, name: user.name, role: user.role }, process.env.SECRET, { expiresIn: '24h' });
+
+                return res
+                    .status(200)
+                    .json({ status: 'You have logged in successfully', token: accessToken });
+
+            } else {
+                return res.status(400).json({ msg: 'Invalid credentials' })
+            }
+        }
+
+        else {
             res.status(401).send({ message: "empty credentials" });
         }
     } catch (err) {
-        console.log(err)
+
         res.send({ mesage: 'Failed to execute the operation' });
     }
 
@@ -60,7 +60,6 @@ router.post('/register', async (req, res) => {
         if (req.body.email && req.body.password && req.body.name) {
 
             const { email, password, name, gender, phoneNumber } = req.body;
-
 
             let user = await User.findOne({
                 email: email
@@ -82,13 +81,18 @@ router.post('/register', async (req, res) => {
                 }
 
                 user = await User.create(newUser);
+        
+                if(!user){
+             
+                    return res.status(500).json({ message: "Failed to create user"});
+                }
 
-                const accessToken = jwt.sign({ uid: user._id }, process.env.SECRET, { expiresIn: '24h' });
+                const accessToken = jwt.sign({ uid: user._id, name: user.name, role: user.role }, process.env.SECRET, { expiresIn: '24h' });
 
                 res.status(200).send({ message: "User created successfully", token: accessToken });
             }
         } else {
-            res.send("empty credentials");
+            res.status(401).send({ message: "empty credentials" });
         }
 
     } catch (err) {
@@ -96,24 +100,5 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.get('/logout', (req, res) => {
-    try {
-        if (req.session.isAuth) {
-            req.session.destroy(err => {
-                if (err) {
-                    console.error('Error destroying session:', err);
-                }
-                res.clearCookie('session');
-                res.status(200).send({ message: 'Successfully logged out' });
-            });
-        } else {
-            res.status(401).send({ message: 'Not logged in' });
-        }
-    } catch (err) {
-        res.status(500).send({ message: 'Failed to execute the operation' });
-    }
-
-
-});
 
 module.exports = router;

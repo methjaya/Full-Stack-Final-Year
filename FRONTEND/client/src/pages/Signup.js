@@ -8,7 +8,7 @@ import Header from "../components/Header";
 export default function Signup() {
   const isLoggedIn = Auth.isLoggedIn();
 
-  // set up the orginal state of the form
+  
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -19,10 +19,10 @@ export default function Signup() {
 
   const [errMessage, setErrMessage] = useState("Failed to register");
 
-  // set state for alert
+  
   const [showAlert, setShowAlert] = useState(false);
 
-  // update state based on form input
+ 
   const onChange = (event) => {
     const { name, value } = event.target;
 
@@ -32,28 +32,29 @@ export default function Signup() {
     });
   };
 
-  // submit form
+ 
   const onFormSubmit = async (event) => {
     event.preventDefault();
 
-    // use try/catch to handle errors
     try {
 
       if (isNaN(formState.phoneNumber)) {
         throw new Error("Phone number should be numeric");
       }
 
-      // create new users
+    
       const response = await register(formState);
 
-      // check the response
+      
       if (!response.ok) {
         throw new Error("Failed to register");
       }
 
-      // get token and user data from server
+      
       const { token } = await response.json();
-      // use authenticaiton functionality
+
+      console.log(token)
+   
       Auth.login(token);
 
 
@@ -64,7 +65,6 @@ export default function Signup() {
     }
   };
 
-  // If the user is logged in, redirect to the home page
   if (isLoggedIn) {
     return <Navigate to="/" />;
   }
