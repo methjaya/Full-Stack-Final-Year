@@ -59,13 +59,7 @@ app.use('/workout', require('./routes/workout_route.js'));
 app.use('/admin', require('./routes/admin.js'));
 
 
-app.get('/dashboard', isAuthenticated, checkAdminAuth, (req, res) => {
-    res.send(`AUTHORIZED! Dashboard - User ID: ${req.user.uid}`);
-});
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/index.html'));
-});
 
 
 

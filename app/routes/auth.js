@@ -8,10 +8,6 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user')
 
 
-router.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/login.html'));
-})
-
 router.get('/status', (req, res) => {
     if (req.session.isAuth) {
         res.status(200).send({ LoginStatus: true });
@@ -58,11 +54,6 @@ router.post('/login', async (req, res) => {
     }
 
 });
-
-
-router.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/register.html'));
-})
 
 router.post('/register', async (req, res) => {
     try {
