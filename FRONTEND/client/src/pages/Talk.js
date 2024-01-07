@@ -28,7 +28,7 @@ export default function History() {
     <div className='history'>
       <Header />
       <div className="d-flex flex-column align-items-center">
-        <h2 className='title'>Talk to a Trainer !</h2>
+        <h2 className='title'>Community Chat</h2>
 
         {<ChatScreen userType="client" />}
       </div>

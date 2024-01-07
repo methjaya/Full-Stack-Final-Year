@@ -17,6 +17,9 @@ import Track from "./components/Track";
 import Talk from "./pages/Talk";
 import Profile from "./pages/Profile";
 import EditWorkouts from "./pages/Edit-workouts";
+import General from "./pages/General";
+import Changepass from "./pages/Changepass";
+import Updateprof from "./pages/Updateprof";
 
 function App() {
   return (
@@ -34,6 +37,9 @@ function App() {
         <Route path="/talk" element={<Talk />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/workouts/edit" element={<EditWorkouts />} />
+        <Route path="/general" element={<General />} />
+        <Route path="/changepass" element={<Changepass />} />
+        <Route path="/updateprof" element={<Updateprof />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router >
