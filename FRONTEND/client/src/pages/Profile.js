@@ -48,16 +48,16 @@ export default function History() {
             <div className="row no-gutters row-bordered row-border-light">
               <div className="col-md-3 pt-0">
                 <div className="list-group list-group-flush account-settings-links">
-                  <Link to={General} className="list-group-item list-group-item-action" data-toggle="list" >
+                  <Link to='/general' className="list-group-item list-group-item-action" data-toggle="list" >
                     General
                   </Link>
-                  <Link to={Changepass} className="list-group-item list-group-item-action " data-toggle="list" >
+                  <Link to='/changepass' className="list-group-item list-group-item-action " data-toggle="list" >
                     Change password
                   </Link>
-                  <Link to={Updateprof} className="list-group-item list-group-item-action " data-toggle="list">
+                  <Link to='/updateprof' className="list-group-item list-group-item-action " data-toggle="list">
                     Edit Profile
                   </Link>
-                  <Link to={Workout}className="list-group-item list-group-item-action active" data-toggle="list" >
+                  <Link to='/workout' className="list-group-item list-group-item-action active" data-toggle="list" >
                     Workout
                   </Link>
                 </div>
@@ -68,7 +68,7 @@ export default function History() {
                     <div className="card-body media align-items-center">
                       <Workout/>
                   </div>
-                  {/* Continue adding other tab panes */}
+                  {/*other tab panes */}
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@ export default function History() {
           </div>
           </div>
         </div>
-        {/* Include your script tags here */}
+    
       </body>
     </div >
   )
