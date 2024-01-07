@@ -4,10 +4,23 @@ import { Navigate } from 'react-router-dom';
 import Auth from "../utils/auth";
 
 const Changepass = () => {
+
   const [formCredentials, setFormCredentials] = useState({
     password: '',
     newPassword: '',
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword(!showNewPassword);
+  };
+
   const loggedIn = Auth.isLoggedIn();
   if (!loggedIn) {
     return <Navigate to="/login" />;
@@ -20,6 +33,8 @@ const Changepass = () => {
     });
   };
 
+
+
   const onSubmit = async (event) => {
 
     event.preventDefault();
@@ -31,7 +46,7 @@ const Changepass = () => {
       }
       const response = await updatePassword(token, formCredentials);
 
-      if(response.status == 401){
+      if (response.status == 401) {
         alert("Wrong Credentials!");
         return;
       }
@@ -57,11 +72,27 @@ const Changepass = () => {
           <form onSubmit={onSubmit}>
             <div className="form-group mb-3">
               <label className="form-label">Current Password</label>
-              <input type="password" name="password" minLength={5} className="form-control" onChange={onChange} value={formCredentials.password} />
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                style={{ padding: "2px 5px", marginLeft: "20px", border: "none" }}
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+              <input type={showPassword ? 'text' : 'password'} name="password" minLength={5} className="form-control" onChange={onChange} value={formCredentials.password} />
             </div>
             <div className="form-group mb-3">
               <label className="form-label">New Password</label>
-              <input type="password" name="newPassword" minLength={5} className="form-control" onChange={onChange} value={formCredentials.newPassword} />
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                style={{ padding: "2px 5px", marginLeft: "20px", border: "none" }}
+                onClick={toggleNewPasswordVisibility}
+              >
+                {showNewPassword ? 'Hide' : 'Show'}
+              </button>
+              <input type={showNewPassword ? 'text' : 'password'} name="newPassword" minLength={5} className="form-control" onChange={onChange} value={formCredentials.newPassword} />
             </div>
             <div className="d-flex justify-content-center">
               <button type="submit" className="btn btn-primary mr-2">

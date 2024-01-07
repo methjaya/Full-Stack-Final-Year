@@ -20,6 +20,7 @@ import EditWorkouts from "./pages/Edit-workouts";
 import General from "./pages/General";
 import Changepass from "./pages/Changepass";
 import Updateprof from "./pages/Updateprof";
+import AddStaff from "./pages/AddStaff";
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
         <Route path="/workouts/edit" element={<EditWorkouts />} />
         <Route path="/general" element={<General />} />
         <Route path="/changepass" element={<Changepass />} />
-        <Route path="/updateprof" element={<Updateprof />} />
+        <Route path="/add-staff" element={<AddStaff />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router >

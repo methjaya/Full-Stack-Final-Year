@@ -1,34 +1,53 @@
 let express = require('express');
-const mongoose = require('mongoose');
 
 const router = express.Router();
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
 
 
 const { isAuthenticated, checkAdminAuth } = require('../middleware/user_auth.js');
 
-router.delete('/users/:userId', isAuthenticated, checkAdminAuth, async (req, res) => {
+router.post('/add-staff', async (req, res) => {
     try {
-        var isValidUid = mongoose.Types.ObjectId.isValid(req.user.uid);
-        console.log(isValidUid);
+        if (req.body.email && req.body.password && req.body.name && req.body.gender && req.body.phoneNumber) {
 
-        if (isValidUid) {
+            const { email, password, name, gender, phoneNumber } = req.body;
 
-            const delId = req.params.userId;
-            const deletedUser = await User.findByIdAndDelete(delId);
+            let user = await User.findOne({
+                email: email
+            });
 
-            if (!deletedUser) {
-                return res.status(404).json({ message: 'User not found' });
-            } else {
-                res.status(200).json({ message: 'User deleted successfully' });
+            if (user) {
+                res.status(403).send({message:'user exists'});
+            }
+            else {
+                const hashedPass = await bcrypt.hash(password, 10);
+
+                const newUser = {
+                    email: email,
+                    password: hashedPass,
+                    name: name,
+                    gender: gender,
+                    phoneNumber: phoneNumber,
+                    role: 'admin'
+                }
+
+                user = await User.create(newUser);
+
+                if (!user) {
+                    console.log("failed");
+                    return res.status(500).json({ message: "Failed to create user" });
+                }
+
+                res.status(200).send({ message: "User created successfully"});
             }
         } else {
-            res.status(400).json({ message: 'Invalid delete id' });
+            res.status(401).send({ message: "Empty credentials" });
         }
 
     } catch (err) {
         console.log(err);
-        res.send({ mesage: 'Failed to execute the operation' })
+        res.status(500).send({ mesage: 'Failed to execute the operation' })
     }
 });
 

@@ -115,7 +115,6 @@ export default function History() {
           :
           (<div style={{ marginLeft: "8%" }}>
             <h3 className='history-text'>No exercise data yet...</h3>
-            <Link to="/exercise"><button className='home-btn'>Add Exercise</button></Link>
           </div>
           )}
       </div >

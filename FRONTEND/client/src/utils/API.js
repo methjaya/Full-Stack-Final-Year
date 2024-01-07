@@ -8,6 +8,17 @@ export const workoutDetails = (token) => {
   });
 };
 
+export const addStaff = (token, data) => {
+  return fetch('http://localhost:8080/admin/add-staff', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data)
+  });
+};
+
 export const updatePassword = (token, data) => {
   return fetch('http://localhost:8080/user/update-password', {
     method: "POST",
