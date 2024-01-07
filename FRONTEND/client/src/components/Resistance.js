@@ -80,7 +80,7 @@ export default function Resistance() {
         <div className='resistance'>
             <Header />
             <div className="d-flex flex-column align-items-center">
-                <h2 className='title text-center'>Add Resistance Exercise</h2>
+                <h2 className='title text-center'>Add Strength Exercise</h2>
                 <form onSubmit={onStrengthSubmit} className='resistance-form d-flex flex-column'>
                     <div className='d-flex justify-content-center'><img alt="resistance" src={resistanceIcon} className="exercise-form-icon" /></div>
                     <label>Name:</label>

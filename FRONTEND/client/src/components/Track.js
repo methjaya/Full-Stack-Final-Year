@@ -5,8 +5,13 @@ import Auth from "../utils/auth";
 import { setTrack } from '../utils/API';
 import Header from "./Header";
 import resistanceIcon from "../assets/images/resistance-w.png"
+import { useLocation } from 'react-router-dom';
 
 export default function Track() {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const uid = queryParams.get('data');
+
     const [absForm, setTrackForm] = useState({
         name: "",
         distance: "",
@@ -35,10 +40,8 @@ export default function Track() {
             const token = Auth.getJwtToken();
             if (!token) throw new Error('Unauthorized!');
 
-            const user = Auth.getUserId();
-
             const workoutData = {
-                "uid": user.uid,
+                "uid": uid,
                 "workouts": {
                     "name": absForm.name,
                     "distance": absForm.distance,

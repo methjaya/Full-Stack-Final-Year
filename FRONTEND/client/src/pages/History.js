@@ -59,9 +59,9 @@ export default function History() {
               let exerciseCard;
               if (exercise.type === "c") {
                 exerciseCard = (
-                  <div className="history-card cardio-title d-flex" style={{width : "200%"}}>
+                  <div className="history-card cardio-title d-flex" style={{width : "200%",marginLeft: "8%"}}>
                     <div className='d-flex align-items-center'><img alt="cardio" src={cardioIcon} className="history-icon" /></div>
-                    <div>
+                    <div style={{ paddingLeft: "10px" }}>
                       <p className='history-name'>{exercise.name}</p>
                       <p className='history-index'>{exercise.sets} Sets</p>
                       <p className='history-index'>{exercise.setDuration} min</p>
@@ -69,9 +69,9 @@ export default function History() {
                     </div>
                   </div>);
               } else if (exercise.type === "a") {
-                exerciseCard = (<div className="history-card resistance-title d-flex" style={{backgroundColor:"#ffd7b5",width : "200%"}}>
+                exerciseCard = (<div className="history-card resistance-title d-flex" style={{backgroundColor:"#ffd7b5",width : "200%",marginLeft: "8%"}}>
                   <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
-                  <div >
+                  <div style={{ paddingLeft: "10px" }}>
                     <p className='history-name'>{exercise.name}</p>
                     <p className='history-index'>{exercise.reps} Reps </p>
                     <p className='history-index'>{exercise.sets} Sets</p>
@@ -80,9 +80,9 @@ export default function History() {
                 </div>)
               } else if (exercise.type === "s") {
                 exerciseCard = (
-                  <div className="history-card resistance-title d-flex" style={{width : "200%"}} >
+                  <div className="history-card resistance-title d-flex" style={{width : "200%",marginLeft: "8%"}} >
                     <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
-                    <div >
+                    <div style={{ paddingLeft: "10px" }}>
                       <p className='history-name'>{exercise.name}</p>
                       <p className='history-index'>{exercise.startingWeight} pounds</p>
                       <p className='history-index'>{exercise.reps} Reps</p>
@@ -93,9 +93,9 @@ export default function History() {
                 )
               } else {
                 exerciseCard = (
-                  <div className="history-card resistance-title d-flex" style={{backgroundColor:"#d3ffd8",width : "160%"}}>
+                  <div className="history-card resistance-title d-flex" style={{backgroundColor:"#d3ffd8",width : "160%",marginLeft: "8%" }}>
                     <div className='d-flex align-items-center'><img alt="resistance" src={resistanceIcon} className="history-icon" /></div>
-                    <div >
+                    <div style={{ paddingLeft: "10px" }}>
                       <p className='history-name'>{exercise.name}</p>
                       <p className='history-index'>{exercise.distance} miles</p>
                       <p className='history-index'>{exercise.timne} min</p>
@@ -113,7 +113,7 @@ export default function History() {
             })}
           </div>)
           :
-          (<div>
+          (<div style={{ marginLeft: "8%" }}>
             <h3 className='history-text'>No exercise data yet...</h3>
             <Link to="/exercise"><button className='home-btn'>Add Exercise</button></Link>
           </div>

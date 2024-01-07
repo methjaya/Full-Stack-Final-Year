@@ -5,7 +5,6 @@ import { } from '../utils/API';
 import Auth from "../utils/auth"
 import Header from "../components/Header";
 import ChatScreen from "../components/ChatScreen";
-import { io } from 'socket.io-client';
 import './ChatScreen.css'; // Import the CSS file for styling
 
 export default function History() {
@@ -19,9 +18,6 @@ export default function History() {
 
     getUserData();
 
-
-
- 
   }, [loggedIn])
 
   if (!loggedIn) {

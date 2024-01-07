@@ -31,7 +31,6 @@ DBConnect();
 wss.on('connection', function connection(ws, request) {
     console.log('A new client Connected!');
     const token = request.url.substr(1);
-    let user;
 
     jwt.verify(token, process.env.SECRET, (err, user) => {
         if (err) {
