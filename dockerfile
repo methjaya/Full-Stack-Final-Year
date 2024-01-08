@@ -25,7 +25,7 @@ RUN npm install
 COPY FRONTEND/client .
 
 # Expose the ports your apps will run on
-EXPOSE 8080 3000
+EXPOSE 3000
 
 # Copy the startup script
 COPY start.sh /app/start.sh
