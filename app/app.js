@@ -28,6 +28,8 @@ const wss = new WebSocket.Server({ server });
 
 DBConnect();
 
+
+
 wss.on('connection', function connection(ws, request) {
     console.log('A new client Connected!');
     const token = request.url.substr(1);
@@ -47,7 +49,11 @@ wss.on('connection', function connection(ws, request) {
         });
 
     });
+    
 });
+
+
+
 
 server.listen(port, () => {
     console.log('Running on port: ' + port);

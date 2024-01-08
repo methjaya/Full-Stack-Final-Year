@@ -13,9 +13,11 @@ router.post('/update-details', isAuthenticated, async (req, res) => {
     try {
         if (req.body.details) {
 
+            //Taking user details
             const { details } = req.body;
             const uid = req.user.uid;
 
+            //Remove if user sends role and password fields
             if (details.hasOwnProperty('role')) {
                 delete details.role;
             }
@@ -23,11 +25,12 @@ router.post('/update-details', isAuthenticated, async (req, res) => {
                 delete details.password;
             }
 
-
+            //Updating the user details
             changedDetails = await User.findOneAndUpdate({ _id: uid },
                 { $set: details },
                 { new: true, upsert: true });
 
+            //Sending responses
             if (changedDetails) {
                 res.status(200).send({ message: "Details updated" });
             } else {

@@ -43,14 +43,11 @@ export default function Signup() {
         throw new Error("Phone number should be numeric");
       }
 
-    
       const response = await register(formState);
-
       
       if (!response.ok) {
         throw new Error("Failed to register");
       }
-
       
       const { token } = await response.json();
    
